@@ -5,41 +5,96 @@ import java.util.LinkedList;
 public class Token {
 	String expr;
 	int count;
-	public void make_Token(String expr){
+	public void Lexical_Analysis(String expr){
 		this.expr = expr;
-		String[] str = this.expr.split(" ");
-		this.count = str.length;
+		String num = "",string = "";
 		LinkedList<String> list = new LinkedList<String>();
-		list = divide_parentheses(str);
+		String[] str = this.expr.split(""); 
+		
+		
+		
+		for(int i=0; i < this.expr.length()+1; i++){
+			switch (str[i]) {
+				
+			case "(":
+				list.add(str[i]);
+				break;
+				
+			case ")":
+				list.add(str[i]);
+				break;
+				
+			case "+":
+				list.add(str[i]);
+				break;
+				
+			case "-":
+				if(str[i+1].matches("[0-9]")){
+					num += str[i];
+				}
+				else{
+					list.add(str[i]);
+				}
+				break;
+				
+			case "*":
+				list.add(str[i]);
+				break;
+				
+			case "/":
+				list.add(str[i]);
+				break;
+				
+			case "<":
+				list.add(str[i]);
+				break;
+				
+			case ">":
+				list.add(str[i]);
+				break;
+				
+			case "=":
+				list.add(str[i]);
+				break;
+				
+			
+				
+			case " ":
+				break;
+				
+			case "":
+				break;
+				
+				
+			default:
+				if(str[i].matches("[a-z]")){
+					string += str[i]; 
+					if(str[i+1].matches("[a-z]")){
+					}
+					else{
+						list.add(string);
+						string = "";
+					}
+				}
+				else{
+					num += str[i];
+					if(str[i+1].matches("[0-9]")){
+					}
+					else{
+						list.add(num);
+						num = "";
+					}
+				}
+				break;
+				
+			}
+		}
+		
+		//Parse.parse(list);
+		
 		for(int i=0;i < list.size() ;i++){
 			System.out.println(list.get(i));
 		}
-	}
-	
-	public LinkedList<String> divide_parentheses(String[] str){
-		int num=0;
-		LinkedList<String> list = new LinkedList<String>();
-		for(int i=0; i< this.count; i++){
-			String result_str = str[i];
-			for(int j=0; j < str[i].length();j++){
-				char c = str[i].charAt(j);
-				if(c == '('){
-					result_str = result_str.substring(1); 
-					list.add("(");
-				}
-				else if(c == ')'){
-					result_str = result_str.substring(result_str.length()-2,result_str.length()-1);
-					num++;
-				}
-			}
-			list.add(result_str);
-			if(num>0){
-				for(int k=0;k<num;k++){
-					list.add(")");
-				}
-			}
-		}
-		return list;
 	}
 }
 
