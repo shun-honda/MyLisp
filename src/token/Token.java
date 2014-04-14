@@ -62,9 +62,9 @@ public class Token {
 
 
 			default:
-				if(string != "" || str[i].matches("[a-z]")){
+				if(string != "" || str[i].matches("[a-z]")) {
 					string += str[i];
-					if(str[i+1].matches("[0-9a-z]")){
+					if(str[i+1].matches("[0-9a-z]")) {
 					}
 					else{
 						list.add(string);
@@ -73,7 +73,7 @@ public class Token {
 				}
 				else{
 					num += str[i];
-					if(str[i+1].matches("[0-9]")){
+					if(str[i+1].matches("[0-9]")) {
 					}
 					else{
 						list.add(num);
@@ -85,7 +85,7 @@ public class Token {
 			}
 		}
 
-		for(int i=0;i < list.size() ;i++){
+		for(int i=0;i < list.size() ;i++) {
 			System.out.println(list.get(i));
 		}
 

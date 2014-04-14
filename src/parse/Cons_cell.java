@@ -7,4 +7,12 @@ public class Cons_cell {
 	public Cons_cell(String str){
 		this.str = str;
 	}
+
+	public String getValue() {
+		return this.str;
+	}
+
+	public void setValue(String value){
+		this.str = value;
+	}
 }
