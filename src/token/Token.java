@@ -60,7 +60,6 @@ public class Token {
 			case "":
 				break;
 
-
 			default:
 				if(string != "" || str[i].matches("[a-z]")) {
 					string += str[i];
