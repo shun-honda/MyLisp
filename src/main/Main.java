@@ -2,21 +2,24 @@ package main;
 
 import java.util.LinkedList;
 
-import parse.Cons_cell;
-import parse.Parse;
-import token.Token;
+import parse.Conscell;
+import parse.Parser;
+import token.Lexer;
 import calc.Preparation;
 
 public class Main {
 	public static void main(String[] args) {
-		Cons_cell i = new Cons_cell("");
-		String expr = "(setq x 10)(setq y 3)(setq z 30)(if(> (* x y) z)(-(* x y) z)(- z (* x y)))";
-		Token token = new Token();
-		LinkedList<String>list = token.Lexical_Analysis(expr);
-		Parse parse = new Parse();
-		Cons_cell result = parse.make_cell (list, 0, i);
+		Conscell root = new Conscell("");
+		LinkedList<String> j = new LinkedList<String>();
+		String expr = "(setq x 10)(setq y 20)(if(> x y)(- x y)(- y x))";
+		Lexer lexer = new Lexer();
+		LinkedList list = lexer.Analyse(expr);
+		Parser parse = new Parser();
+		Conscell result = parse.make_cell(list, 0, root);
 		Preparation calculator = new Preparation();
-		String ans = calculator.eval(result,"", result, list);
-		System.out.println(ans);
+		LinkedList ans = calculator.eval(result, "", result, j);
+		while (ans.size() > 0) {
+			System.out.println(ans.remove(0));
+		}
 	}
 }

@@ -2,67 +2,64 @@ package calc;
 
 import java.util.LinkedList;
 
-import parse.Cons_cell;
+import parse.Conscell;
 
 public class Calculator {
-	public String Caluclation(Cons_cell formula, String operator, String x, Cons_cell head, LinkedList<String> var) {
-		int y;
+	public LinkedList Basic_Airthmetic_operations(Conscell formula, String operator, LinkedList x, Conscell head,
+			LinkedList<String> var) {
 		Preparation operation = new Preparation();
-		switch(operator){
+		switch (operator) {
 		case "+":
-			y = Integer.parseInt(x);
-			y += Integer.parseInt(operation.eval(formula, operator, head, var));
-			x = String.valueOf(y);
+			x.add((int) x.remove() + (int) operation.eval(formula, operator, head, var).remove());
 			break;
 
 		case "-":
-			y = Integer.parseInt(x);
-			y -= Integer.parseInt(operation.eval(formula, operator, head, var));
-			x = String.valueOf(y);
+			x.add((int) x.remove() - (int) operation.eval(formula, operator, head, var).get(0));
 			break;
 
 		case "*":
-			y = Integer.parseInt(x);
-			y *= Integer.parseInt(operation.eval(formula, operator, head, var));
-			x = String.valueOf(y);
+			x.add((int) x.remove() * (int) operation.eval(formula, operator, head, var).get(0));
 			break;
 
 		case "/":
-			y = Integer.parseInt(x);
-			y /= Integer.parseInt(operation.eval(formula, operator, head, var));
-			x = String.valueOf(y);
+			x.add((int) x.remove() / (int) operation.eval(formula, operator, head, var).get(0));
 			break;
+		}
+		return x;
+	}
 
+	public String Relational_Operator(Conscell formula, String operator, LinkedList x, Conscell head,
+			LinkedList<String> var) {
+		String result = "";
+		Preparation operation = new Preparation();
+		switch (operator) {
 		case ">":
-			y = Integer.parseInt(x);
-			if(y > Integer.parseInt(operation.eval(formula, operator, head, var))){
-				x = "T";
+			if ((int) x.get(0) > (int) operation.eval(formula, operator, head, var).get(0)) {
+				result = "T";
 			}
-			else{
-				x = "Nill";
+			else {
+				result = "Nill";
 			}
 			break;
 
 		case "<":
-			y = Integer.parseInt(x);
-			if(y < Integer.parseInt(operation.eval(formula, operator, head, var))){
-				x = "T";
+			if ((int) x.get(0) < (int) operation.eval(formula, operator, head, var).get(0)) {
+				result = "T";
 			}
-			else{
-				x = "Nill";
+			else {
+				result = "Nill";
 			}
 			break;
 
 		case "=":
-			y = Integer.parseInt(x);
-			if(y == Integer.parseInt(operation.eval(formula, operator, head, var))){
-				x = "T";
+			if ((int) x.get(0) == (int) operation.eval(formula, operator, head, var).get(0)) {
+				result = "T";
 			}
-			else{
-				x = "Nill";
+			else {
+				result = "Nill";
 			}
 			break;
 		}
-		return x;
+		return result;
 	}
 }
