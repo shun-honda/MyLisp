@@ -7,14 +7,14 @@ import parse.Parser;
 import token.Lexer;
 import calc.Evaluation;
 import calc.Value_List;
-import enums.Type;
+import enums.Flag;
 
 public class Main {
 	public static void main(String[] args) {
 		Conscell root = new Conscell("");
 		Value_List ans = new Value_List("");
 		LinkedList<String> j = new LinkedList<String>();
-		String expr = "(setq x 10)(setq y 20)(if(> x y)(- x y)(- y x))";
+		String expr = "(defun fib (n) (if(< n 3)(1)(+ (fib(- n 1))(fib(- n 2))))) (fib 36)";
 		Lexer lexer = new Lexer();
 		LinkedList list = lexer.Analyse(expr);
 		Parser parse = new Parser();
@@ -22,7 +22,7 @@ public class Main {
 		Evaluation calculator = new Evaluation();
 		ans = calculator.eval(result, "", result, j, ans);
 		while (ans != null) {
-			if (ans.getType() == Type.number) {
+			if (ans.getType() == Flag.number) {
 				System.out.println(ans.getValue());
 				ans = ans.nextElement;
 			}

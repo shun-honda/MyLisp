@@ -1,11 +1,11 @@
 package calc;
 
-import enums.Type;
+import enums.Flag;
 
 public class Value_List {
 	private String id;
 	private int num;
-	private Type type;
+	private Flag type;
 	public Value_List nextElement;
 	public Value_List Type;
 
@@ -17,7 +17,7 @@ public class Value_List {
 		this.num = num;
 	}
 
-	public Value_List(Type type) {
+	public Value_List(Flag type) {
 		this.type = type;
 	}
 
@@ -29,11 +29,11 @@ public class Value_List {
 		return this.num;
 	}
 
-	public Type getType() {
+	public Flag getType() {
 		return this.type;
 	}
 
-	public void setType(Type type) {
+	public void setType(Flag type) {
 		this.type = type;
 	}
 
