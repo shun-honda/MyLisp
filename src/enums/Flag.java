@@ -5,5 +5,6 @@ public enum Flag {
 	string,
 	setq,
 	defun,
-	car
+	car,
+	operator
 }

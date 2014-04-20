@@ -39,7 +39,15 @@ public class Lexer {
 	public void addIdToken(String[] str) {
 		String id = str[this.count];
 		while (true) {
-			if (id.matches("[()]||\\p{Punct}")) {
+			if (id.matches("[()]")) {
+				this.list.add(id);
+				break;
+			}
+			else if (id.matches("\\p{Punct}")) {
+				if (str[this.count + 1].equals("=")) {
+					id += str[this.count + 1];
+					this.count++;
+				}
 				this.list.add(id);
 				break;
 			}
