@@ -10,7 +10,6 @@ public class Parser {
 		if (check == 0) {
 			list.remove(0);
 		}
-
 		if (list.get(0).equals("(")) {
 			cell = new Conscell("car");
 			cell.setType(Flag.car);
@@ -50,4 +49,5 @@ public class Parser {
 		}
 		return cell;
 	}
+
 }

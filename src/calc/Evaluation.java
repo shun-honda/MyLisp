@@ -100,6 +100,11 @@ public class Evaluation {
 				}
 			}
 		}
+
+		else if (expr.getFlag() == Flag.operator) {
+			x = eval(expr.cdr, expr.getId(), head, var, x);
+		}
+
 		else if (expr.getId().equals("defun")) {
 			this.name.add(expr.cdr.getId());
 			make_local_variable(expr.cdr.cdr.car);
@@ -113,9 +118,6 @@ public class Evaluation {
 			if (saved_var.size() != 0) {
 				reposit_local_q();
 			}
-		}
-		else {
-			x = eval(expr.cdr, expr.getId(), head, var, x);
 		}
 
 		if (expr == head) {
