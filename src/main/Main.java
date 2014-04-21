@@ -8,7 +8,7 @@ import java.util.Scanner;
 import parse.Conscell;
 import parse.Parser;
 import token.Lexer;
-import calc.Evaluation;
+import calc.Evaluator;
 import calc.Value_List;
 import enums.Flag;
 
@@ -77,7 +77,7 @@ public class Main {
 		LinkedList list = lexer.Analyse(expr);
 		Parser parse = new Parser();
 		Conscell result = parse.make_cell(list, 0, root);
-		Evaluation calculator = new Evaluation();
+		Evaluator calculator = new Evaluator();
 		ans = calculator.eval(result, "", result, j, ans);
 		while (ans != null) {
 			if (ans.getType() == Flag.number) {

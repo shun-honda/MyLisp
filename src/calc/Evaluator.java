@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import parse.Conscell;
 import enums.Flag;
 
-public class Evaluation {
+public class Evaluator {
 	LinkedList var = new LinkedList();
 	LinkedList saved_var = new LinkedList();
 	LinkedList<Integer> result = new LinkedList<Integer>();
