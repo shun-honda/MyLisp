@@ -3,7 +3,7 @@ package token;
 import java.util.LinkedList;
 
 public class Lexer {
-	int count;
+	int count, pcount = 0;
 	LinkedList list = new LinkedList();
 
 	public LinkedList<String> Analyse(String expr) {
@@ -22,6 +22,10 @@ public class Lexer {
 			}
 		} catch (java.lang.IndexOutOfBoundsException e) {
 			System.out.println("エラー：入力された数式に誤りがあります。\n強制終了します。");
+			System.exit(0);
+		}
+		if (pcount != 0) {
+			System.out.println("エラー：入力された数式に誤りがあります。\n（括弧の数が合いません。）\n強制終了します。");
 			System.exit(0);
 		}
 		return list;
@@ -44,11 +48,21 @@ public class Lexer {
 	public void addIdToken(String[] str) {
 		String id = str[this.count];
 		while (true) {
-			if (id.matches("[()]")) {
+			if (id.equals("(")) {
 				this.list.add(id);
+				this.pcount++;
+				break;
+			}
+			else if (id.equals(")")) {
+				this.list.add(id);
+				this.pcount--;
 				break;
 			}
 			else if (id.matches("\\p{Punct}")) {
+				if (this.count == 1) {
+					System.out.println("エラー：入力された数式に誤りがあります。\n強制終了します。");
+					System.exit(0);
+				}
 				if (str[this.count + 1].equals("=")) {
 					id += str[this.count + 1];
 					this.count++;
