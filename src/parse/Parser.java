@@ -24,7 +24,7 @@ public class Parser {
 		}
 		else if (list.get(0).getClass().getName().equals("java.lang.String")) {
 			cell = new Conscell((String) list.get(0));
-			if (cell.getId().matches("\\p{Punct}")) {
+			if (cell.getId().matches("[<=>=]*\\p{Punct}")) {
 				cell.setType(Flag.operator);
 			}
 			else {
