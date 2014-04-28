@@ -9,21 +9,21 @@ public class Lexer {
 	public LinkedList<String> Analyse(String expr) {
 		String num = "", string = "";
 		String[] str = expr.split("");
-		//try {
-		for (this.count = 0; this.count < str.length; this.count++) {
-			if (str[this.count].matches("^[0-9]")) {
-				addNumToken(str);
+		try {
+			for (this.count = 0; this.count < str.length; this.count++) {
+				if (str[this.count].matches("^[0-9]")) {
+					addNumToken(str);
+				}
+				else if (str[this.count].matches("")) {
+				}
+				else if (str[this.count].matches("[A-Za-z()]*||\\p{Punct}")) {
+					addIdToken(str);
+				}
 			}
-			else if (str[this.count].matches("")) {
-			}
-			else if (str[this.count].matches("[A-Za-z()]*||\\p{Punct}")) {
-				addIdToken(str);
-			}
-		}
-		/*} catch (java.lang.IndexOutOfBoundsException e) {
+		} catch (java.lang.IndexOutOfBoundsException e) {
 			System.out.println("エラー：入力された数式に誤りがあります。\n強制終了します。");
 			System.exit(0);
-		}*/
+		}
 		if (pcount != 0) {
 			System.out.println("エラー：入力された数式に誤りがあります。\n（括弧の数が合いません。）\n強制終了します。");
 			System.exit(0);

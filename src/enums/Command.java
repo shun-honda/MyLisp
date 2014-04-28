@@ -1,0 +1,30 @@
+package enums;
+
+public enum Command {
+	RET,
+	PUSH,
+	POP,
+	ADD,
+	SUB,
+	MUL,
+	DIV,
+	GT,
+	GTEQ,
+	LT,
+	LTEQ,
+	EQ,
+	NEQ,
+	BEQ0,
+	LOADA,
+	LOADL,
+	STOREA,
+	STOREL,
+	JUMP,
+	MOV,
+	CALL,
+	POPR,
+	FRAME,
+	PRINTLN,
+	ENTRY,
+	LABEL
+}

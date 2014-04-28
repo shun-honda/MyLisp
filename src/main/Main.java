@@ -8,9 +8,10 @@ import java.util.Scanner;
 import parse.Conscell;
 import parse.Parser;
 import token.Lexer;
-import calc.Evaluator;
+import vm.Code;
+import vm.Compiler;
+import vm.Excutor;
 import calc.Value_List;
-import enums.Flag;
 
 public class Main {
 	public static void main(String[] args) {
@@ -77,8 +78,15 @@ public class Main {
 		LinkedList list = lexer.Analyse(expr);
 		Parser parse = new Parser();
 		Conscell result = parse.make_cell(list, 0, root);
+		Compiler compiler = new Compiler();
+		compiler.compiler(result, 0, result);
+		Code[] command = compiler.getCommand();
+		Excutor r_command = new Excutor();
+		int x = r_command.excute(command, compiler.getEntry(), compiler.getLabel(), compiler.getargsize());
+		/*
 		Evaluator calculator = new Evaluator();
 		ans = calculator.eval(result, "", result, j, ans);
+
 		while (ans != null) {
 			if (ans.getType() == Flag.number) {
 				System.out.println(ans.getValue());
@@ -88,7 +96,8 @@ public class Main {
 				System.out.println(ans.getId());
 				ans = ans.nextElement;
 			}
-		}
+		}*/
+		System.out.println(x);
 		long t2 = System.currentTimeMillis();
 		System.out.println(t2 - t1);
 	}
