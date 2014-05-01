@@ -20,10 +20,10 @@ public class Excutor {
 				switch (func[i].command) {
 				case RET:
 					if (r_adress.size() != 0) {
-						for(int k = j - (argsize - 1); k <= j; k++) {
-							arg[k]=0;
+						for (int k = j - (argsize - 1); k <= j; k++) {
+							arg[k] = 0;
 						}
-						j= j - argsize;
+						j = j - argsize;
 						i = r_adress.pop();
 					}
 					else {
@@ -59,10 +59,30 @@ public class Excutor {
 					vm.push(x + y);
 					break;
 
+				case ADD1:
+					x = vm.pop();
+					vm.push(x + 1);
+					break;
+
+				case ADD2:
+					x = vm.pop();
+					vm.push(x + 2);
+					break;
+
 				case SUB:
 					y = vm.pop();
 					x = vm.pop();
 					vm.push(x - y);
+					break;
+
+				case SUB1:
+					x = vm.pop();
+					vm.push(x - 1);
+					break;
+
+				case SUB2:
+					x = vm.pop();
+					vm.push(x - 2);
 					break;
 
 				case MUL:
@@ -178,7 +198,7 @@ public class Excutor {
 					i++;
 					argcount++;
 					arg[j + argsize - argcount] = vm.pop();
-					if(argcount == argsize){
+					if (argcount == argsize) {
 						j = j + argsize;
 						argcount = 0;
 					}
