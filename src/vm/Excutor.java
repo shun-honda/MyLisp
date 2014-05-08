@@ -13,207 +13,215 @@ public class Excutor {
 		int x, y;//作業用変数
 		int count = func.length;
 		int result = 0;
-		int i = 0, j = 0;
+		int pc = 0, argpointer = 0;
 		int argcount = 0;
-		while (i < count) {
-			if (func[i].command != null) {
-				switch (func[i].command) {
-				case RET:
-					if (r_adress.size() != 0) {
-						for (int k = j - (argsize - 1); k <= j; k++) {
-							arg[k] = 0;
+		try {
+			while (pc < count) {
+				if (func[pc].command != null) {
+					switch (func[pc].command) {
+					case RET:
+						if (r_adress.size() != 0) {
+							for (int k = argpointer - (argsize - 1); k <= argpointer; k++) {
+								arg[k] = 0;
+							}
+							argpointer = argpointer - argsize;
+							pc = r_adress.pop();
 						}
-						j = j - argsize;
-						i = r_adress.pop();
+						else {
+							result = vm.pop();
+							pc = count - 1;
+						}
+						break;
+
+					case PUSH:
+						pc++;
+						if (var.indexOf(func[pc].str) != -1) {
+							vm.push((int) var.get(var.indexOf(func[pc].str) + 1));
+						}
+						else {
+							vm.push(func[pc].num);
+						}
+						break;
+
+					case POP:
+						vm.pop();
+						break;
+
+					case MOV:
+						pc++;
+						var.add(func[pc].str);
+						pc++;
+						var.add(func[pc].num);
+						break;
+
+					case ADD:
+						y = vm.pop();
+						x = vm.pop();
+						vm.push(x + y);
+						break;
+
+					case ADD1:
+						x = vm.pop();
+						vm.push(x + 1);
+						break;
+
+					case ADD2:
+						x = vm.pop();
+						vm.push(x + 2);
+						break;
+
+					case SUB:
+						y = vm.pop();
+						x = vm.pop();
+						vm.push(x - y);
+						break;
+
+					case SUB1:
+						x = vm.pop();
+						vm.push(x - 1);
+						break;
+
+					case SUB2:
+						x = vm.pop();
+						vm.push(x - 2);
+						break;
+
+					case MUL:
+						y = vm.pop();
+						x = vm.pop();
+						vm.push(x * y);
+						break;
+
+					case DIV:
+						y = vm.pop();
+						x = vm.pop();
+						vm.push(x / y);
+						break;
+
+					case GT:
+						y = vm.pop();
+						x = vm.pop();
+						if (x > y) {
+							vm.push(1);
+						}
+						else {
+							vm.push(0);
+						}
+						break;
+
+					case GTEQ:
+						y = vm.pop();
+						x = vm.pop();
+						if (x >= y) {
+							vm.push(1);
+						}
+						else {
+							vm.push(0);
+						}
+						break;
+
+					case LT:
+						y = vm.pop();
+						x = vm.pop();
+						if (x < y) {
+							vm.push(1);
+						}
+						else {
+							vm.push(0);
+						}
+						break;
+
+					case LTEQ:
+						y = vm.pop();
+						x = vm.pop();
+						if (x <= y) {
+							vm.push(1);
+						}
+						else {
+							vm.push(0);
+						}
+						break;
+
+					case EQ:
+						y = vm.pop();
+						x = vm.pop();
+						if (x == y) {
+							vm.push(1);
+						}
+						else {
+							vm.push(0);
+						}
+						break;
+
+					case NEQ:
+						y = vm.pop();
+						x = vm.pop();
+						if (x != y) {
+							vm.push(1);
+						}
+						else {
+							vm.push(0);
+						}
+						break;
+
+					case BEQ0:
+						pc++;
+						if (vm.pop() == 0) {
+							pc = label[func[pc].num];
+						}
+						break;
+
+					case LABEL:
+						pc++;
+						break;
+
+					case JUMP:
+						pc++;
+						pc = label[func[pc].num];
+						break;
+
+					case CALL:
+						pc++;
+						r_adress.push(pc);
+						pc = entry[func[pc].num];
+						break;
+
+					case ENTRY:
+						pc++;
+						break;
+
+					case LOADA:
+						pc++;
+						vm.push(arg[argpointer - (argsize - (func[pc].num))]);
+						break;
+
+					case STOREA:
+						pc++;
+						argcount++;
+						arg[argpointer + argsize - argcount] = vm.pop();
+						if (argcount == argsize) {
+							argpointer = argpointer + argsize;
+							argcount = 0;
+						}
+						break;
+
+					default:
+						break;
+
 					}
-					else {
-						result = vm.pop();
-						i = count - 1;
-					}
-					break;
-
-				case PUSH:
-					i++;
-					if (var.indexOf(func[i].str) != -1) {
-						vm.push((int) var.get(var.indexOf(func[i].str) + 1));
-					}
-					else {
-						vm.push(func[i].num);
-					}
-					break;
-
-				case POP:
-					vm.pop();
-					break;
-
-				case MOV:
-					i++;
-					var.add(func[i].str);
-					i++;
-					var.add(func[i].num);
-					break;
-
-				case ADD:
-					y = vm.pop();
-					x = vm.pop();
-					vm.push(x + y);
-					break;
-
-				case ADD1:
-					x = vm.pop();
-					vm.push(x + 1);
-					break;
-
-				case ADD2:
-					x = vm.pop();
-					vm.push(x + 2);
-					break;
-
-				case SUB:
-					y = vm.pop();
-					x = vm.pop();
-					vm.push(x - y);
-					break;
-
-				case SUB1:
-					x = vm.pop();
-					vm.push(x - 1);
-					break;
-
-				case SUB2:
-					x = vm.pop();
-					vm.push(x - 2);
-					break;
-
-				case MUL:
-					y = vm.pop();
-					x = vm.pop();
-					vm.push(x * y);
-					break;
-
-				case DIV:
-					y = vm.pop();
-					x = vm.pop();
-					vm.push(x / y);
-					break;
-
-				case GT:
-					y = vm.pop();
-					x = vm.pop();
-					if (x > y) {
-						vm.push(1);
-					}
-					else {
-						vm.push(0);
-					}
-					break;
-
-				case GTEQ:
-					y = vm.pop();
-					x = vm.pop();
-					if (x >= y) {
-						vm.push(1);
-					}
-					else {
-						vm.push(0);
-					}
-					break;
-
-				case LT:
-					y = vm.pop();
-					x = vm.pop();
-					if (x < y) {
-						vm.push(1);
-					}
-					else {
-						vm.push(0);
-					}
-					break;
-
-				case LTEQ:
-					y = vm.pop();
-					x = vm.pop();
-					if (x <= y) {
-						vm.push(1);
-					}
-					else {
-						vm.push(0);
-					}
-					break;
-
-				case EQ:
-					y = vm.pop();
-					x = vm.pop();
-					if (x == y) {
-						vm.push(1);
-					}
-					else {
-						vm.push(0);
-					}
-					break;
-
-				case NEQ:
-					y = vm.pop();
-					x = vm.pop();
-					if (x != y) {
-						vm.push(1);
-					}
-					else {
-						vm.push(0);
-					}
-					break;
-
-				case BEQ0:
-					i++;
-					if (vm.pop() == 0) {
-						i = label[func[i].num];
-					}
-					break;
-
-				case LABEL:
-					i++;
-					break;
-
-				case JUMP:
-					i++;
-					i = label[func[i].num];
-					break;
-
-				case CALL:
-					i++;
-					r_adress.push(i);
-					i = entry[func[i].num];
-					break;
-
-				case ENTRY:
-					i++;
-					break;
-
-				case LOADA:
-					i++;
-					vm.push(arg[j - (argsize - (func[i].num))]);
-					break;
-
-				case STOREA:
-					i++;
-					argcount++;
-					arg[j + argsize - argcount] = vm.pop();
-					if (argcount == argsize) {
-						j = j + argsize;
-						argcount = 0;
-					}
-					break;
-
-				default:
-					break;
-
+					pc++;
 				}
-				i++;
+				else {
+					System.out.println("エラー\n");
+					System.exit(0);
+				}
 			}
-			else {
-				System.out.println("エラー\n");
-				System.exit(0);
-			}
+		} catch (java.lang.NullPointerException e) {
+			System.out.println("エラー：入力された数式に誤りがあります\n強制終了します。");
+			System.exit(0);
+		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+			System.out.println("エラー：入力された数式に誤りがあります\n強制終了します。");
+			System.exit(0);
 		}
 		return result;
 	}

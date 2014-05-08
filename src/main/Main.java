@@ -15,9 +15,6 @@ import calc.Value_List;
 
 public class Main {
 	public static void main(String[] args) {
-		Conscell root = new Conscell("");
-		Value_List ans = new Value_List("");
-		LinkedList<String> j = new LinkedList<String>();
 		int i = 0;
 		while (i == 0) {
 			System.out.println("\n式の入力\n手入力の場合は０、ファイルからの入力の場合は１を入力してください。\n入力：");
@@ -35,7 +32,10 @@ public class Main {
 					try {
 						File file = new File(inputexpr);
 						Scanner scan = new Scanner(file);
-						String expr = scan.nextLine();
+						String expr = "";
+						while (scan.hasNext()) {
+							expr = expr + scan.nextLine();
+						}
 						System.out.println("\n入力を確認しました。\nファイルから読み取った式：\n\n" + expr + "\n\nこれより実行します。\n実行結果：\n");
 						excute_command(expr);
 					} catch (FileNotFoundException e) {

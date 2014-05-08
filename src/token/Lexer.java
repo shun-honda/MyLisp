@@ -14,6 +14,8 @@ public class Lexer {
 				if (str[this.count].matches("^[0-9]")) {
 					addNumToken(str);
 				}
+				else if (str[this.count].matches("\n")) {
+				}
 				else if (str[this.count].matches("")) {
 				}
 				else if (str[this.count].matches("[A-Za-z()]*||\\p{Punct}")) {
@@ -59,7 +61,7 @@ public class Lexer {
 				break;
 			}
 			else if (id.matches("\\p{Punct}")) {
-				if (this.count == 1) {
+				if (this.count == 0) {
 					System.out.println("エラー：入力された数式に誤りがあります。\n強制終了します。");
 					System.exit(0);
 				}
