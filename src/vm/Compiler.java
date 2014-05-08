@@ -9,11 +9,11 @@ import enums.Flag;
 public class Compiler {
 	LinkedList<String> func_name = new LinkedList<String>();
 	LinkedList<String> arg = new LinkedList<String>();
+	LinkedList<Conscell> head = new LinkedList<Conscell>();
 	Code[] command = new Code[1000];
-	int pc = 0, label_n = 0, ec = 0;
+	int pc = 0, label_n = 0, ec = 0, opc;
 	int[] entry = new int[50];
 	int[] label = new int[50];
-	Conscell head;
 
 	public void compiler(Conscell expr, int fc, Conscell head) {
 		try {
@@ -94,14 +94,14 @@ public class Compiler {
 					this.pc++;
 				}
 			}
-			else if (expr.getId().equals("Nil") && this.head == head) {
+			else if (expr.getId().equals("Nil") && this.head.pop() == head) {
 				this.command[this.pc] = new Code(Command.RET);
 				this.pc++;
 			}
 			else if (expr.getId().equals("Nil")) {
 			}
 			else {//演算子の場合
-				this.head = expr;
+				this.head.push(expr);
 				int computation = 0;
 				int numbercheck = 0;
 				Conscell save_element = expr.cdr;
@@ -111,7 +111,7 @@ public class Compiler {
 						computation++;
 					}
 					if (numbercheck != 0) {
-						if (save_element.getValue() != 1 && save_element.getValue() != 2) {
+						if ((save_element.getValue() != 1 && save_element.getValue() != 2) || (operator.equals("*") || operator.equals("/"))) {
 							compiler(save_element, fc, head);
 						}
 					}
@@ -123,7 +123,7 @@ public class Compiler {
 				}
 				save_element = expr.cdr;
 				for (int i = 0; i < computation; i++) {
-					if (save_element.cdr.getValue() != 1 && save_element.cdr.getValue() != 2) {
+					if ((save_element.cdr.getValue() != 1 && save_element.cdr.getValue() != 2) || (operator.equals("*") || operator.equals("/"))) {
 						make_operator(operator);
 					}
 					else if (save_element.cdr.getValue() == 1) {
@@ -177,6 +177,16 @@ public class Compiler {
 			this.pc++;
 			break;
 
+		case "*":
+			this.command[this.pc] = new Code(Command.MUL);
+			this.pc++;
+			break;
+
+		case "/":
+			this.command[this.pc] = new Code(Command.DIV);
+			this.pc++;
+			break;
+
 		case "<":
 			this.command[this.pc] = new Code(Command.LT);
 			this.pc++;
@@ -184,6 +194,16 @@ public class Compiler {
 
 		case "<=":
 			this.command[this.pc] = new Code(Command.LTEQ);
+			this.pc++;
+			break;
+
+		case ">":
+			this.command[this.pc] = new Code(Command.GT);
+			this.pc++;
+			break;
+
+		case ">=":
+			this.command[this.pc] = new Code(Command.GTEQ);
 			this.pc++;
 			break;
 
