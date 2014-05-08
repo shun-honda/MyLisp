@@ -14,8 +14,6 @@ public class Lexer {
 				if (str[this.count].matches("^[0-9]")) {
 					addNumToken(str);
 				}
-				else if (str[this.count].matches("\n")) {
-				}
 				else if (str[this.count].matches("")) {
 				}
 				else if (str[this.count].matches("[A-Za-z()]*||\\p{Punct}")) {
