@@ -12,7 +12,7 @@ public class Excutor {
 		Variable_Length_List vm = new Variable_Length_List();
 		int x, y;//作業用変数
 		LinkedList<Integer> result = new LinkedList<Integer>();
-		int pc = 0, argpointer = 0, rc = 0, formulac = 0;
+		int pc = 0, argpointer = 0, formulac = 0;
 		int argcount = 0;
 		try {
 			while (pc < commandsize) {

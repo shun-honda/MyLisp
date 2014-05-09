@@ -14,7 +14,7 @@ import vm.Excutor;
 
 public class Main {
 	public static void main(String[] args) {
-		int i = 0;
+		//int i = 0;
 		String inputexpr = args[0];
 		try {
 			File file = new File(inputexpr);
