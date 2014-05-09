@@ -24,7 +24,7 @@ public class Main {
 			while (scan.hasNext()) {
 				expr = expr + scan.nextLine();
 			}
-			System.out.println("\n入力を確認しました。\nファイルから読み取った式：\n\n" + expr + "\n\nこれより実行します。\n実行結果：\n");
+			System.out.println("\nInput Expression：\n\n" + expr + "\n\nResult：\n");
 			excute_command(expr);
 		} catch (FileNotFoundException e) {
 			System.out.println(e);

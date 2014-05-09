@@ -152,10 +152,10 @@ public class Compiler {
 				compiler(save_element.cdr, fc, head);
 			}
 		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			System.out.println("エラー：入力された数式に誤りがあります。\n強制終了します。");
+			System.out.println("Error：There are errors in expression\n");
 			System.exit(0);
 		} catch (java.lang.NullPointerException e) {
-			System.out.println("エラー：入力された数式に誤りがあります。\n強制終了します。");
+			System.out.println("Error：There are errors in expression\n");
 			System.exit(0);
 		}
 		if (expr.cdr == null) {

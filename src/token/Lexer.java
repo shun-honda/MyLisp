@@ -21,11 +21,11 @@ public class Lexer {
 				}
 			}
 		} catch (java.lang.IndexOutOfBoundsException e) {
-			System.out.println("エラー：入力された数式に誤りがあります。\n強制終了します。");
+			System.out.println("Error：There are errors in expression\n");
 			System.exit(0);
 		}
 		if (pcount != 0) {
-			System.out.println("エラー：入力された数式に誤りがあります。\n（括弧の数が合いません。）\n強制終了します。");
+			System.out.println("Error：There are errors in expression\n");
 			System.exit(0);
 		}
 		return list;
@@ -60,7 +60,7 @@ public class Lexer {
 			}
 			else if (id.matches("\\p{Punct}")) {
 				if (this.count == 0) {
-					System.out.println("エラー：入力された数式に誤りがあります。\n強制終了します。");
+					System.out.println("Error：There are errors in expression\n");
 					System.exit(0);
 				}
 				if (str[this.count + 1].equals("=")) {

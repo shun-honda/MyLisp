@@ -5,7 +5,7 @@ import java.util.LinkedList;
 public class Excutor {
 	int call_count;
 
-	public LinkedList<Integer> excute(Code[] func, int[] entry, int[] label, int argsize, int[] formulap, int commandsize) {
+	public LinkedList<Integer> excute(Code[] code, int[] entry, int[] label, int argsize, int[] formulap, int commandsize) {
 		LinkedList var = new LinkedList();
 		int[] arg = new int[1000];
 		LinkedList<Integer> r_adress = new LinkedList<Integer>();
@@ -16,8 +16,8 @@ public class Excutor {
 		int argcount = 0;
 		try {
 			while (pc < commandsize) {
-				if (func[pc].command != null) {
-					switch (func[pc].command) {
+				if (code[pc].command != null) {
+					switch (code[pc].command) {
 					case RET:
 						if (r_adress.size() != 0) {
 							for (int k = argpointer - (argsize - 1); k <= argpointer; k++) {
@@ -40,11 +40,11 @@ public class Excutor {
 
 					case PUSH:
 						pc++;
-						if (var.indexOf(func[pc].str) != -1) {
-							vm.push((int) var.get(var.indexOf(func[pc].str) + 1));
+						if (var.indexOf(code[pc].str) != -1) {
+							vm.push((int) var.get(var.indexOf(code[pc].str) + 1));
 						}
 						else {
-							vm.push(func[pc].num);
+							vm.push(code[pc].num);
 						}
 						break;
 
@@ -54,9 +54,9 @@ public class Excutor {
 
 					case MOV:
 						pc++;
-						var.add(func[pc].str);
+						var.add(code[pc].str);
 						pc++;
-						var.add(func[pc].num);
+						var.add(code[pc].num);
 						break;
 
 					case ADD:
@@ -172,7 +172,7 @@ public class Excutor {
 					case BEQ0:
 						pc++;
 						if (vm.pop() == 0) {
-							pc = label[func[pc].num];
+							pc = label[code[pc].num];
 						}
 						break;
 
@@ -182,13 +182,13 @@ public class Excutor {
 
 					case JUMP:
 						pc++;
-						pc = label[func[pc].num];
+						pc = label[code[pc].num];
 						break;
 
 					case CALL:
 						pc++;
 						r_adress.push(pc);
-						pc = entry[func[pc].num];
+						pc = entry[code[pc].num];
 						break;
 
 					case ENTRY:
@@ -197,7 +197,7 @@ public class Excutor {
 
 					case LOADA:
 						pc++;
-						vm.push(arg[argpointer - (argsize - (func[pc].num))]);
+						vm.push(arg[argpointer - (argsize - (code[pc].num))]);
 						break;
 
 					case STOREA:
@@ -217,15 +217,15 @@ public class Excutor {
 					pc++;
 				}
 				else {
-					System.out.println("エラー\n");
+					System.out.println("Error：There are errors in expression\n");
 					System.exit(0);
 				}
 			}
 		} catch (java.lang.NullPointerException e) {
-			System.out.println("エラー：入力された数式に誤りがあります\n強制終了します。");
+			System.out.println("Error：There are errors in expression\n");
 			System.exit(0);
 		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			System.out.println("エラー：入力された数式に誤りがあります\n強制終了します。");
+			System.out.println("Error：There are errors in expression\n");
 			System.exit(0);
 		}
 		return result;
