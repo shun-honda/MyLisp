@@ -5,18 +5,17 @@ import java.util.LinkedList;
 public class Excutor {
 	int call_count;
 
-	public int excute(Code[] func, int[] entry, int[] label, int argsize) {
+	public LinkedList<Integer> excute(Code[] func, int[] entry, int[] label, int argsize, int[] formulap, int commandsize) {
 		LinkedList var = new LinkedList();
 		int[] arg = new int[1000];
 		LinkedList<Integer> r_adress = new LinkedList<Integer>();
 		Variable_Length_List vm = new Variable_Length_List();
 		int x, y;//作業用変数
-		int count = func.length;
-		int result = 0;
-		int pc = 0, argpointer = 0;
+		LinkedList<Integer> result = new LinkedList<Integer>();
+		int pc = 0, argpointer = 0, rc = 0, formulac = 0;
 		int argcount = 0;
 		try {
-			while (pc < count) {
+			while (pc < commandsize) {
 				if (func[pc].command != null) {
 					switch (func[pc].command) {
 					case RET:
@@ -28,8 +27,14 @@ public class Excutor {
 							pc = r_adress.pop();
 						}
 						else {
-							result = vm.pop();
-							pc = count - 1;
+							result.addLast(vm.pop());
+							if (formulap[formulac] != 0) {
+								pc = formulap[formulac];
+								formulac++;
+							}
+							else {
+								pc = commandsize - 1;
+							}
 						}
 						break;
 

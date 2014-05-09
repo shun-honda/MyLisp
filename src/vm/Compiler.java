@@ -11,9 +11,11 @@ public class Compiler {
 	LinkedList<String> arg = new LinkedList<String>();
 	LinkedList<Conscell> head = new LinkedList<Conscell>();
 	Code[] command = new Code[1000];
-	int pc = 0, label_n = 0, ec = 0, opc;
+	int pc = 0, label_n = 0, ec = 0, opc, formulac = 0;
 	int[] entry = new int[50];
 	int[] label = new int[50];
+	int[] formulap = new int[50];
+	int commandsize;
 
 	public void compiler(Conscell expr, int fc, Conscell head) {
 		try {
@@ -35,7 +37,12 @@ public class Compiler {
 				this.pc++;
 				this.command[this.pc] = new Code(0);
 				this.pc++;
-				compiler(expr.cdr.cdr.car, fc, head);
+				if (expr.cdr.cdr.getFlag() == Flag.car) {
+					compiler(expr.cdr.cdr.car, fc, head);
+				}
+				else {
+					compiler(expr.cdr.cdr, fc, head);
+				}
 				this.command[this.pc] = new Code(Command.RET);
 				this.pc++;
 				this.command[this.pc] = new Code(Command.LABEL);
@@ -44,11 +51,17 @@ public class Compiler {
 				this.label[label_n] = this.pc;
 				this.pc++;
 				this.label_n++;
-				compiler(expr.cdr.cdr.cdr.car, fc, head);
+				if (expr.cdr.cdr.cdr.getFlag() == Flag.car) {
+					compiler(expr.cdr.cdr.cdr.car, fc, head);
+				}
+				else {
+					compiler(expr.cdr.cdr.cdr, fc, head);
+				}
 				this.command[this.pc] = new Code(Command.RET);
 				this.pc++;
 			}
 			else if (expr.getId().equals("defun")) {
+				//this.head.push(expr);
 				Conscell save_element = expr.cdr.cdr.car;
 				while (save_element.getFlag() == Flag.string) {
 					if (save_element.getId().equals("Nil")) {
@@ -75,6 +88,7 @@ public class Compiler {
 					this.pc++;
 				}
 				compiler(expr.cdr.cdr.cdr.car, fc, head);
+				this.head.push(expr.car);
 			}
 			else if (expr.getId().equals("car")) {
 				compiler(expr.car, fc, head);
@@ -94,11 +108,12 @@ public class Compiler {
 					this.pc++;
 				}
 			}
-			else if (expr.getId().equals("Nil") && this.head.pop() == head) {
+			else if (expr.getId().equals("Nil") && this.head.peek() == head) {
 				this.command[this.pc] = new Code(Command.RET);
 				this.pc++;
 			}
 			else if (expr.getId().equals("Nil")) {
+				this.head.pop();
 			}
 			else {//演算子の場合
 				this.head.push(expr);
@@ -111,7 +126,7 @@ public class Compiler {
 						computation++;
 					}
 					if (numbercheck != 0) {
-						if ((save_element.getValue() != 1 && save_element.getValue() != 2) || (operator.equals("*") || operator.equals("/"))) {
+						if ((save_element.getValue() != 1 && save_element.getValue() != 2) || operator.matches("[*/<>]+")) {
 							compiler(save_element, fc, head);
 						}
 					}
@@ -123,7 +138,7 @@ public class Compiler {
 				}
 				save_element = expr.cdr;
 				for (int i = 0; i < computation; i++) {
-					if ((save_element.cdr.getValue() != 1 && save_element.cdr.getValue() != 2) || (operator.equals("*") || operator.equals("/"))) {
+					if ((save_element.cdr.getValue() != 1 && save_element.cdr.getValue() != 2) || operator.matches("[*/<>]+")) {
 						make_operator(operator);
 					}
 					else if (save_element.cdr.getValue() == 1) {
@@ -142,6 +157,23 @@ public class Compiler {
 		} catch (java.lang.NullPointerException e) {
 			System.out.println("エラー：入力された数式に誤りがあります。\n強制終了します。");
 			System.exit(0);
+		}
+		if (expr.cdr == null) {
+			if (this.head.size() != 0) {
+				if (this.head.peek().car != null) {
+					formulap[this.formulac] = pc - 1;
+					formulac++;
+					compiler(this.head.peek().car, fc, this.head.pop().car);
+				}
+				else {
+					this.commandsize = pc;
+				}
+			}
+		}
+		else if (expr.getFlag() == Flag.string) {
+			if (expr.getId().equals("defun")) {
+				this.commandsize = pc;
+			}
 		}
 	}
 
@@ -228,7 +260,15 @@ public class Compiler {
 		return this.arg.size();
 	}
 
+	public int getCommandsize() {
+		return this.commandsize;
+	}
+
 	public Code[] getCommand() {
 		return this.command;
+	}
+
+	public int[] getFormulapointer() {
+		return this.formulap;
 	}
 }

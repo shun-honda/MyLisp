@@ -52,11 +52,11 @@ public class VM_Main {
 		command[35] = new Code(Command.ADD);
 		command[36] = new Code(Command.RET);
 
-		int[] entry = {6};
-		int[] label = {20};
+		int[] entry = { 6 };
+		int[] label = { 20 };
 		Excutor r_command = new Excutor();
-		int x = r_command.excute(command, entry, label, 1);
-		System.out.println(x);
+		//int x = r_command.excute(command, entry, label, 1);
+		//System.out.println(x);
 		long t2 = System.currentTimeMillis();
 		System.out.println(t2 - t1);
 	}

@@ -16,6 +16,20 @@ import calc.Value_List;
 public class Main {
 	public static void main(String[] args) {
 		int i = 0;
+		String inputexpr = args[0];
+		try {
+			File file = new File(inputexpr);
+			Scanner scan = new Scanner(file);
+			String expr = "";
+			while (scan.hasNext()) {
+				expr = expr + scan.nextLine();
+			}
+			System.out.println("\n入力を確認しました。\nファイルから読み取った式：\n\n" + expr + "\n\nこれより実行します。\n実行結果：\n");
+			excute_command(expr);
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+		}
+		/*
 		while (i == 0) {
 			System.out.println("\n式の入力\n手入力の場合は０、ファイルからの入力の場合は１を入力してください。\n入力：");
 			try {
@@ -67,6 +81,7 @@ public class Main {
 				System.out.println("\n終了します。");
 			}
 		}
+		*/
 	}
 
 	public static void excute_command(String expr) {
@@ -82,7 +97,8 @@ public class Main {
 		compiler.compiler(result, 0, result);
 		Code[] command = compiler.getCommand();
 		Excutor r_command = new Excutor();
-		int x = r_command.excute(command, compiler.getEntry(), compiler.getLabel(), compiler.getargsize());
+		LinkedList<Integer> x = new LinkedList<Integer>();
+		x = r_command.excute(command, compiler.getEntry(), compiler.getLabel(), compiler.getargsize(), compiler.getFormulapointer(), compiler.getCommandsize());
 		/*
 		Evaluator calculator = new Evaluator();
 		ans = calculator.eval(result, "", result, j, ans);
@@ -97,7 +113,9 @@ public class Main {
 				ans = ans.nextElement;
 			}
 		}*/
-		System.out.println(x);
+		while (x.size() != 0) {
+			System.out.println(x.removeFirst());
+		}
 		long t2 = System.currentTimeMillis();
 		System.out.println(t2 - t1);
 	}
