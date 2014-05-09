@@ -117,6 +117,6 @@ public class Main {
 			System.out.println(x.removeFirst());
 		}
 		long t2 = System.currentTimeMillis();
-		System.out.println(t2 - t1);
+		System.out.println(t2 - t1 + "\n");
 	}
 }
