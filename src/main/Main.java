@@ -92,13 +92,13 @@ public class Main {
 		Lexer lexer = new Lexer();
 		LinkedList list = lexer.Analyse(expr);
 		Parser parse = new Parser();
-		Conscell result = parse.make_cell(list, 0, root);
+		Conscell cell = parse.make_cell(list, 0, root);
 		Compiler compiler = new Compiler();
-		compiler.compiler(result, 0, result);
+		compiler.compiler(cell, 0, cell);
 		Code[] command = compiler.getCommand();
 		Excutor r_command = new Excutor();
-		LinkedList<Integer> x = new LinkedList<Integer>();
-		x = r_command.excute(command, compiler.getEntry(), compiler.getLabel(), compiler.getargsize(), compiler.getFormulapointer(), compiler.getCommandsize());
+		LinkedList<Integer> result = new LinkedList<Integer>();
+		result = r_command.excute(command, compiler.getEntry(), compiler.getLabel(), compiler.getargsize(), compiler.getFormulapointer(), compiler.getCommandsize());
 		/*
 		Evaluator calculator = new Evaluator();
 		ans = calculator.eval(result, "", result, j, ans);
@@ -113,8 +113,8 @@ public class Main {
 				ans = ans.nextElement;
 			}
 		}*/
-		while (x.size() != 0) {
-			System.out.println(x.removeFirst());
+		while (result.size() != 0) {
+			System.out.println(result.removeFirst());
 		}
 		long t2 = System.currentTimeMillis();
 		System.out.println(t2 - t1 + " [ms]\n");
