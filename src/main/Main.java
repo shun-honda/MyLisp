@@ -11,7 +11,6 @@ import token.Lexer;
 import vm.Code;
 import vm.Compiler;
 import vm.Excutor;
-import calc.Value_List;
 
 public class Main {
 	public static void main(String[] args) {
@@ -87,8 +86,6 @@ public class Main {
 	public static void excute_command(String expr) {
 		long t1 = System.currentTimeMillis();
 		Conscell root = new Conscell("");
-		Value_List ans = new Value_List("");
-		LinkedList<String> j = new LinkedList<String>();
 		Lexer lexer = new Lexer();
 		LinkedList list = lexer.Analyse(expr);
 		Parser parse = new Parser();
